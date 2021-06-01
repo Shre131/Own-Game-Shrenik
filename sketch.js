@@ -20,6 +20,8 @@ var gameState=START;
 
 var obstacle2Groupl2;
 var obstacle1Groupl2;
+var invisl2;
+var skipl2;
 
 
 
@@ -64,6 +66,26 @@ skip=createSprite(420,displayHeight/2+200,50,50);
 obstacle1Groupl2=new Group();
 obstacle2Groupl2=new Group();
 
+startImage=createSprite(250,325);
+startImage.addImage("instructions",insImage);
+startImage.scale=1.1;
+
+pb=createSprite(375,575,50,50);
+pb.addImage("playbutton",pbImage);
+pb.scale=0.4;
+
+
+
+invisl2=createSprite(390,displayHeight/2+150,50,50);
+invisl2.addImage(invisImage);
+invisl2.scale=0.1;
+invisl2.visible=false;
+
+
+skipl2=createSprite(420,displayHeight/2+150,50,50);
+skipl2.visible=false;
+
+
 
 }
 
@@ -72,13 +94,7 @@ function draw() {
 
 
 if(gameState===START){
-  startImage=createSprite(250,325);
-startImage.addImage("instructions",insImage);
-startImage.scale=1.1;
-
-pb=createSprite(375,575,50,50);
-pb.addImage("playbutton",pbImage);
-pb.scale=0.4;
+  
 if(mousePressedOver(pb)){
   player.x=155;
   gameState=PLAY;
@@ -125,13 +141,13 @@ if(player.isTouching(track2) && keyDown("LEFT_ARROW")){
  
   }
 
-  if(mousePressedOver(invis)){
+  if(mousePressedOver(invisl2)){
     obstacle1Group.destroyEach();
     obstacle2Group.destroyEach();
     invis.destroy();
   }
 
-  if(mousePressedOver(skip)){
+  if(mousePressedOver(skipl2)){
     for(var i=0;i<obstacle1Group.length;i++){
       obstacle1Group.get(i).y=600;
     }
@@ -172,9 +188,14 @@ if(gameState===END){
 if(gameState==="level 2"){
   bg.addImage( "clouds",bgImage);
   score=Math.round(frameCount/20);
-
+obstacle1Group.destroyEach();
+obstacle2Group.destroyEach();
   spawnLeftObstacles2();
   spawnRightObstacles2();
+  skip.destroy();
+  invis.destroy();
+  skipl2.visible=true;
+  invisl2.visible=true;
 
 if(player.isTouching(track) && keyDown("RIGHT_ARROW")){
 player.x=345;
@@ -197,25 +218,25 @@ if(player.isTouching(track2) && keyDown("LEFT_ARROW")){
   }
 
 
-  if(player.isTouching(obstacle1Group)|| player.isTouching(obstacle2Group)){
+  if(player.isTouching(obstacle1Groupl2)|| player.isTouching(obstacle2Groupl2)){
     gameState=END;
  
   }
 
-  if(mousePressedOver(invis)){
-    obstacle1Group.destroyEach();
-    obstacle2Group.destroyEach();
-    invis.destroy();
+  if(mousePressedOver(invisl2)){
+    obstacle1Groupl2.destroyEach();
+    obstacle2Groupl2.destroyEach();
+    invisl2.destroy();
   }
 
-  if(mousePressedOver(skip)){
-    for(var i=0;i<obstacle1Group.length;i++){
-      obstacle1Group.get(i).y=600;
+  if(mousePressedOver(skipl2)){
+    for(var i=0;i<obstacle1Groupl2.length;i++){
+      obstacle1Groupl2.get(i).y=600;
     }
-    for(var k=0;k<obstacle2Group.length;k++){
-      obstacle2Group.get(k).y=600;
+    for(var k=0;k<obstacle2Groupl2.length;k++){
+      obstacle2Groupl2.get(k).y=600;
     }
-    skip.destroy();
+    skipl2.destroy();
   }
   
   drawSprites();
